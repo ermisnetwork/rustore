@@ -1,0 +1,8 @@
+/target
+/fullchain.pem
+/privkey.pem
+/database
+.DS_Store
+/Cargo.lock
+/data
+/data-staging

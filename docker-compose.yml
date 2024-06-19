@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  datastore:
+    build: .
+    network_mode: "host"
+    container_name: rustore
+    ports:
+      - ":7777"
+    volumes:
+      - ./service.prod.yaml:/app/service.yaml
+      - ./data:/app/data
+    # network_mode: "host"
+    restart: unless-stopped

@@ -1,0 +1,53 @@
+[package]
+name = "rustore-server"
+version = "0.1.10"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.75"
+tokio = { version = "1.36.0", features = ["macros", "rt-multi-thread", "net"] }
+tokio-util = { version = "0.7.10", features = ["codec"] }
+flume = { version = "0.11.0" }
+futures-util = "0.3.30"
+num_cpus = { version = "1.16.0" }
+rustore-storage = { path = "../rustore-storage" }
+rustore-protocol = { path = "../rustore-protocol" }
+ctrlc = "3.4.1"
+clap = { version = "4.4.18", features = ["derive"] }
+async-broadcast = "0.7.0"
+dashmap = "5.5.3"
+serde_yaml = "0.9.32"
+serde = { version = "1.0.197", features = ["derive"] }
+ahash = "0.8.11"
+
+# For releases try to max optimizations of the produced binary:
+[profile.release]
+#Higher optimization levels may produce faster runtime code at the expense of longer compiler times
+opt-level = 3
+#Link-Time Optimization (LTO) - “fat” LTO which attempts to perform optimizations across all crates within the dependency graph
+lto = "fat"
+#Incremental compilation causes rustc to save additional information to disk which will be reused when recompiling the crate, improving re-compile times.
+incremental = false
+#Speed up compile times tries to split your crates into small chunks and compile as many in parallel as possible and might cause it to miss some potential optimizations
+codegen-units = 1
+#Controls the amount of debug information included in the compiled binary
+debug = false
+#Strip debug info and symbols from the compiled binary
+strip = "symbols"
+
+# For releases also try to max optimizations for dependencies:
+[profile.release.build-override]
+opt-level = 3
+[profile.release.package."*"]
+opt-level = 3
+
+# For dev builds try to max debuggability and compile speed of the produced binary:
+[profile.dev]
+opt-level = 0
+lto = 'off'
+incremental = true
+codegen-units = 256
+debug = true
+strip = "none"

@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "rustore-server",
+    "rustore-storage",
+    "rustore-protocol",
+    "rustore-client",
+    "rustore-test"
+]
+workspace.resolver = "2"
